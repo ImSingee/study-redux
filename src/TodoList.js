@@ -1,21 +1,19 @@
 import React, { Component } from 'react'
-import store from './store';
+import { connect } from 'react-redux';
 import { getList, addItem, deleteItem } from './store/creators';
 import TodoListUI from './TodoListUI';
 
 class TodoList extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign(store.getState(), {
+        this.state = {
             inputValue: '',
-        });
-        store.subscribe(() => {
-            this.setState(store.getState);
-        });
+        };
     }
 
     componentDidMount() {
-        store.dispatch(getList());
+        // this.props.dispatch(getList());
+        this.props.getList();
     }
 
     changeInputValue(event) {
@@ -30,7 +28,7 @@ class TodoList extends Component {
         if (!inputValue) return;
 
         // console.log(this.state.inputValue);
-        store.dispatch(addItem(inputValue));
+        this.props.addItem(inputValue);
         this.setState({
             inputValue: ''
         });
@@ -38,7 +36,7 @@ class TodoList extends Component {
 
     clickItem = event => {
         console.log(event.target.dataset.id);
-        store.dispatch(deleteItem(event.target.dataset.id));
+        this.props.deleteItem(event.target.dataset.id);
     }
 
     render() {
@@ -47,12 +45,21 @@ class TodoList extends Component {
                 changeInputValue={this.changeInputValue.bind(this)}
                 inputValue={this.state.inputValue}
                 add={this.add.bind(this)}
-                list={this.state.list}
+                list={this.props.list}
                 clickItem={this.clickItem.bind(this)}
-                listLoading={this.state.listLoading}
+                listLoading={this.props.listLoading}
             />
         );
     }
 }
 
-export default TodoList;
+const stateToProps = (state) => state;
+
+const dispatchToProps = (dispatch) => ({
+    getList: () => dispatch(getList()),
+    addItem: (name) => dispatch(addItem(name)),
+    deleteItem: (id) => dispatch(deleteItem(id)),
+    // dispatch: (...args) => dispatch(...args)
+});
+
+export default connect(stateToProps, dispatchToProps)(TodoList);
