@@ -1,23 +1,32 @@
+import uuid from 'uuid/v1';
+
 const defaultState = {
     list: [
-        'List 1',
-        'List 2',
-        'List 3',
+        { id: uuid(), name: 'List 1' },
+        { id: uuid(), name: 'List 2' },
+        { id: uuid(), name: 'List 3' },
     ]
 };
 
 export default (state = defaultState, { type, payload }) => {
-    console.log(type);
-    console.log(payload);
-    switch (type) {
-        case 'addItem':
-            const { list } = state;
-            const newItem = payload.value;
-            list.push(newItem);
-            return Object.assign(state, {
-                list
-            });
-        default:
-            return state;
+    console.log(type, { payload });
+
+    if (type === 'addItem') {
+        const list = [
+            ...state.list,
+            { id: uuid(), name: payload.value }
+        ]
+        return {
+            ...state,
+            list
+        };
+    } else if (type === 'deleteItem') {
+        const list = state.list.filter(({ id }) => id !== payload.id);
+        return {
+            ...state,
+            list
+        }
+    } else {
+        return state;
     }
 };

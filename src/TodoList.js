@@ -6,9 +6,9 @@ import store from './store';
 class TodoList extends Component {
     constructor(props) {
         super(props);
-        this.state = Object.assign({
+        this.state = Object.assign(store.getState(), {
             inputValue: ''
-        }, store.getState());
+        });
         store.subscribe(() => {
             this.setState(store.getState);
         });
@@ -39,6 +39,17 @@ class TodoList extends Component {
         });
     }
 
+    clickItem = event => {
+        console.log(event.target.dataset.id)
+        const action = {
+            type: 'deleteItem',
+            payload: {
+                id: event.target.dataset.id
+            }
+        };
+        store.dispatch(action);
+    }
+
     render() {
         return (
             <div style={{ margin: '30px' }}>
@@ -60,7 +71,10 @@ class TodoList extends Component {
                         style={{ width: '300px', marginTop: '10px' }}
                         bordered
                         dataSource={this.state.list}
-                        renderItem={item => <List.Item>{item}</List.Item>}
+                        renderItem={item => <List.Item
+                            data-id={item.id}
+                            onClick={this.clickItem}
+                        >{item.name}</List.Item>}
                     />
                 </div>
             </div>
