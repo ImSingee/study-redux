@@ -8,13 +8,16 @@ const defaultState = {
     ]
 };
 
+export const ADD_ITEM = 'addItem';
+export const DELETE_ITEM = 'deleteItem';
+
 export default (state = defaultState, { type, payload }) => {
     console.log(type, { payload });
 
     if (type === 'addItem') {
         const list = [
             ...state.list,
-            { id: uuid(), name: payload.value }
+            { id: payload.id, name: payload.name }
         ]
         return {
             ...state,

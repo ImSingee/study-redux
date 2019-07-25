@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Input, Button, List } from 'antd';
 import 'antd/dist/antd.css';
 import store from './store';
+import { addItem, deleteItem } from './store/creators';
 
 class TodoList extends Component {
     constructor(props) {
@@ -26,28 +27,15 @@ class TodoList extends Component {
         if (!inputValue) return;
 
         // console.log(this.state.inputValue);
-        const action = {
-            type: 'addItem',
-            payload: {
-                value: inputValue
-            }
-        }
-
-        store.dispatch(action);
+        store.dispatch(addItem(inputValue));
         this.setState({
             inputValue: ''
         });
     }
 
     clickItem = event => {
-        console.log(event.target.dataset.id)
-        const action = {
-            type: 'deleteItem',
-            payload: {
-                id: event.target.dataset.id
-            }
-        };
-        store.dispatch(action);
+        console.log(event.target.dataset.id);
+        store.dispatch(deleteItem(event.target.dataset.id));
     }
 
     render() {
