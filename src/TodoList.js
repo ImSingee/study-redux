@@ -1,18 +1,34 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import store from './store';
-import { addItem, deleteItem } from './store/creators';
+import { setItems, addItem, deleteItem } from './store/creators';
 import TodoListUI from './TodoListUI';
 
 class TodoList extends Component {
     constructor(props) {
         super(props);
         this.state = Object.assign(store.getState(), {
-            inputValue: ''
+            inputValue: '',
+            listLoading: true
         });
         store.subscribe(() => {
             this.setState(store.getState);
         });
     }
+
+
+    componentDidMount() {
+        const url = 'https://easy-mock.com/mock/5d3998a7d88a4d2dce5b9e18/study-redux/list';
+        axios.get(url).then(({ data }) => {
+            // console.log(data);
+            // console.log(data.data.list);
+            store.dispatch(setItems(data.data.list));
+            this.setState({
+                listLoading: false
+            })
+        });
+    }
+
 
     changeInputValue(event) {
         this.setState({
@@ -45,6 +61,7 @@ class TodoList extends Component {
                 add={this.add.bind(this)}
                 list={this.state.list}
                 clickItem={this.clickItem.bind(this)}
+                listLoading={this.state.listLoading}
             />
         );
     }

@@ -22,6 +22,7 @@ const TodoListUI = (props) => (
                 style={{ width: '300px', marginTop: '10px' }}
                 bordered
                 dataSource={props.list}
+                loading={props.listLoading}
                 renderItem={item => <List.Item
                     data-id={item.id}
                     onClick={props.clickItem}
