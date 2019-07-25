@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Input, Button, List } from 'antd';
-import 'antd/dist/antd.css';
 import store from './store';
 import { addItem, deleteItem } from './store/creators';
+import TodoListUI from './TodoListUI';
 
 class TodoList extends Component {
     constructor(props) {
@@ -40,32 +39,13 @@ class TodoList extends Component {
 
     render() {
         return (
-            <div style={{ margin: '30px' }}>
-                <h1>TodoList</h1>
-                <div>
-                    <Input
-                        style={{ width: '200px', marginRight: '10px' }}
-                        onInput={this.changeInputValue.bind(this)}
-                        value={this.state.inputValue}
-                    />
-                    <Button
-                        type="primary"
-                        onClick={this.add.bind(this)}
-                        disabled={!this.state.inputValue}
-                    >增加</Button>
-                </div>
-                <div>
-                    <List
-                        style={{ width: '300px', marginTop: '10px' }}
-                        bordered
-                        dataSource={this.state.list}
-                        renderItem={item => <List.Item
-                            data-id={item.id}
-                            onClick={this.clickItem}
-                        >{item.name}</List.Item>}
-                    />
-                </div>
-            </div>
+            <TodoListUI
+                changeInputValue={this.changeInputValue.bind(this)}
+                inputValue={this.state.inputValue}
+                add={this.add.bind(this)}
+                list={this.state.list}
+                clickItem={this.clickItem.bind(this)}
+            />
         );
     }
 }

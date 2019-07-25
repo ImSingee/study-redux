@@ -12,7 +12,7 @@ export const ADD_ITEM = 'addItem';
 export const DELETE_ITEM = 'deleteItem';
 
 export default (state = defaultState, { type, payload }) => {
-    console.log(type, { payload });
+    // console.log(type, { payload });
 
     if (type === 'addItem') {
         const list = [
