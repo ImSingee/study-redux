@@ -36,7 +36,7 @@ class TodoList extends Component {
     }
 
     clickItem = event => {
-        console.log(event.target.dataset.id);
+        // console.log(event.target.dataset.id);
         this.props.deleteItem(event.target.dataset.id);
     }
 
