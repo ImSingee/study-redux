@@ -15,7 +15,7 @@ class TodoList extends Component {
     }
 
     componentDidMount() {
-        // store.dispatch(getList());
+        store.dispatch(getList());
     }
 
     changeInputValue(event) {

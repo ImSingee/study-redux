@@ -3,6 +3,7 @@ const defaultState = {
     listLoading: false
 };
 
+export const GET_LIST = 'getList';
 export const SET_ITEMS = 'setItems';
 export const SET_LIST_LOADING = 'setListLoading';
 export const ADD_ITEM = 'addItem';
