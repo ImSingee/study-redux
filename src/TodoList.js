@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getList, addItem, deleteItem } from './store/creators';
 import TodoListUI from './TodoListUI';
@@ -53,13 +54,17 @@ class TodoList extends Component {
     }
 }
 
-const stateToProps = (state) => state;
+const mapStateToProps = ({ list, listLoading }) => ({ list, listLoading });
 
-const dispatchToProps = (dispatch) => ({
-    getList: () => dispatch(getList()),
-    addItem: (name) => dispatch(addItem(name)),
-    deleteItem: (id) => dispatch(deleteItem(id)),
-    // dispatch: (...args) => dispatch(...args)
-});
+// const mapDispatch = (dispatch) => ({
+//     getList: () => dispatch(getList()),
+//     addItem: (name) => dispatch(addItem(name)),
+//     deleteItem: (id) => dispatch(deleteItem(id)),
+// });
+// const mapDispatch = dispatch => bindActionCreators(
+//     { getList, addItem, deleteItem },
+//     dispatch
+// );
+const mapDispatch = { getList, addItem, deleteItem };
 
-export default connect(stateToProps, dispatchToProps)(TodoList);
+export default connect(mapStateToProps, mapDispatch)(TodoList);
